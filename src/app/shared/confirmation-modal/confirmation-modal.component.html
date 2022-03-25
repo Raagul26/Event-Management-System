@@ -1,0 +1,22 @@
+<div class="bg-slate-500/60 flex inset-0 fixed justify-center items-center">
+  <div class="bg-white h-40 w-2/6 shadow-lg rounded-md p-8 min-w-max">
+    <div class="text-xl text-gray-500">{{ data.title }}</div>
+    <div class="flex justify-end space-x-8 mt-10">
+      <button
+        mat-flat-button
+        class="bg-gray-500 text-white w-28"
+        [mat-dialog-close]="false"
+      >
+        Close
+      </button>
+      <button
+        mat-flat-button
+        class="bg-cyan-500 text-white w-28"
+        [mat-dialog-close]="true"
+        cdkFocusInitial
+      >
+        {{ data.btnName }}
+      </button>
+    </div>
+  </div>
+</div>
