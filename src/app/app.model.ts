@@ -84,19 +84,10 @@ export interface Login {
   password: string;
 }
 
-
 export interface LoginResponse {
-  headers: HttpHeaders;
-  status: number;
-  statusText: string;
-  url: string;
-  ok: boolean;
-  type:number
-  body: {
     status: string;
     message: string;
     data: { userId: string };
-  };
 }
 
 export interface Response {

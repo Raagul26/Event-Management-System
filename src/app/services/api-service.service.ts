@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Users } from '../admin/admin.model';
-import { BookingsCount, Events, Login, Response, Signup, Titles } from '../app.model';
-
+import { BookingsCount, Events, JWTTOKEN, Login, LoginResponse, Response, Signup, Titles } from '../app.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +16,7 @@ export class ApiServiceService {
 
   // SETTER
   setJwtToken(): void {
-    this.jwtToken = new HttpHeaders({Authorization:localStorage.getItem('jwttoken')+""})
+    this.jwtToken = new HttpHeaders({Authorization:localStorage.getItem(JWTTOKEN)+""})
   }
 
   getEventId(): string | null {
@@ -33,9 +32,9 @@ export class ApiServiceService {
     return this.http.post<Response>(this.baseUrl + 'user/signup', body);
   }
 
-  userLogin(body: Login): Observable<any> {
-    return this.http.post(this.baseUrl + 'user/login', body, {
-      observe: 'response',
+  userLogin(body: Login): Observable<HttpResponse<LoginResponse>> {
+    return this.http.post<LoginResponse>(this.baseUrl + 'user/login', body, {
+      observe:'response'
     });
   }
 
@@ -99,6 +98,7 @@ export class ApiServiceService {
       eventId: eventId,
       attendedStatus: 'cancelled',
     };
+
     return this.http.post<Response>(this.baseUrl + 'user/cancelEvent', body, {
       headers: this.jwtToken,
     });

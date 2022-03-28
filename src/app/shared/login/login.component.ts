@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
@@ -6,7 +7,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { DASHBOARD, FAILURE, HOME, JWTTOKEN, SUCCESS } from 'src/app/app.model';
+import { DASHBOARD, FAILURE, HOME, JWTTOKEN, LoginResponse, SUCCESS } from 'src/app/app.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { LOGINFAILED, LOGINSUCCESS } from './login.model';
 
@@ -25,11 +26,12 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private apiService: ApiServiceService,
-    private router: Router,
+    private router:Router,
     private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
+    console.log(new HttpResponse())
     this.loginForm = new FormGroup({
       emailId: new FormControl('', [
         Validators.required,
@@ -47,11 +49,12 @@ export class LoginComponent implements OnInit {
       this.apiService.userLogin(this.loginForm.value).subscribe(
         (res) => {
           console.log(res);
+          
           this.openSnackBar(LOGINSUCCESS, SUCCESS);
-          localStorage.setItem(JWTTOKEN, res.headers.get(JWTTOKEN));
-          let payload: string = res.headers.get(JWTTOKEN).split('.')[1];
+          localStorage.setItem(JWTTOKEN, String(res.headers.get(JWTTOKEN)));
+          let payload: string = String(res.headers.get(JWTTOKEN)).split('.')[1];
           let userType: string = atob(payload);
-          localStorage.setItem('userId', res.body.data.userId);
+          localStorage.setItem('userId', String(res.body?.data.userId));
           if (JSON.parse(userType).role == 'user') {
             localStorage.setItem('isUserLoggedIn', 'true');
             this.router.navigate([HOME]);
