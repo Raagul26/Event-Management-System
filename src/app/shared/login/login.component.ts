@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(new HttpResponse())
     this.loginForm = new FormGroup({
       emailId: new FormControl('', [
         Validators.required,
@@ -48,8 +47,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.apiService.userLogin(this.loginForm.value).subscribe(
         (res) => {
-          console.log(res);
-          
           this.openSnackBar(LOGINSUCCESS, SUCCESS);
           localStorage.setItem(JWTTOKEN, String(res.headers.get(JWTTOKEN)));
           let payload: string = String(res.headers.get(JWTTOKEN)).split('.')[1];
