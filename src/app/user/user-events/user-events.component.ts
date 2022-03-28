@@ -5,8 +5,16 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { EventData } from 'src/app/admin/admin.model';
+import { DataArray, FAILURE, SUCCESS } from 'src/app/app.model';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 import { ApiServiceService } from '../../services/api-service.service';
+import {
+  CANCELCONFIRMATION,
+  CANCELEVENT,
+  EVENTCANCELLED,
+  POSTERPATH,
+} from '../user.model';
 
 @Component({
   selector: 'app-user-events',
@@ -15,7 +23,7 @@ import { ApiServiceService } from '../../services/api-service.service';
 })
 export class UserEventsComponent implements OnInit {
   displaySpinner: boolean = true;
-  bookedEvents!: any;
+  bookedEvents!: DataArray;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   confirmation!: boolean;
@@ -29,9 +37,8 @@ export class UserEventsComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getBookings().subscribe((bookedEvents) => {
       this.bookedEvents = {
-        data: bookedEvents.data.map((eachData) => {
-          eachData.img =
-            '../../../assets/Event Images/event' + this.randomNo() + '.jpg';
+        data: bookedEvents.data.map((eachData: EventData) => {
+          eachData.img = POSTERPATH + this.randomNo() + '.jpg';
           return eachData;
         }),
       };
@@ -43,8 +50,8 @@ export class UserEventsComponent implements OnInit {
     var eventId = (<HTMLButtonElement>event.target).id;
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: {
-        title: `Are you sure you want to cancel the event - ${eventId}`,
-        btnName: 'Cancel Event',
+        title: CANCELCONFIRMATION + eventId,
+        btnName: CANCELEVENT,
       },
     });
     this.confirmation = await dialogRef.afterClosed().toPromise().then();
@@ -53,9 +60,9 @@ export class UserEventsComponent implements OnInit {
       this.apiService.cancelEvent(eventId).subscribe(
         () => {
           this.ngOnInit();
-          this.openSnackBar('Event Cancelled Successfully', 'green-snackbar');
+          this.openSnackBar(EVENTCANCELLED, SUCCESS);
         },
-        (err) => this.openSnackBar(err.message, 'redSnackbar')
+        (err) => this.openSnackBar(err.message, FAILURE)
       );
     }
   }

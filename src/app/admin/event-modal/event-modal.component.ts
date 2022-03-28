@@ -1,16 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { EVENTS, FAILURE, SUCCESS } from 'src/app/app.model';
+import { EVENTS, FAILURE, OneEvent, SUCCESS } from 'src/app/app.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import {
   EVENTCREATED,
+  EventData,
   EVENTNOTCREATED,
   EVENTNOTUPDATED,
   EVENTUPDATED,
@@ -34,10 +39,10 @@ export class EventModalComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router,
     public dialogRef: MatDialogRef<EventModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; row: EventData }
   ) {}
 
-  ngOnInit():void{
+  ngOnInit(): void {
     this.EventForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,

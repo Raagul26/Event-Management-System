@@ -6,7 +6,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { DASHBOARD, FAILURE, HOME, SUCCESS } from 'src/app/app.model';
+import { DASHBOARD, FAILURE, HOME, JWTTOKEN, SUCCESS } from 'src/app/app.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { LOGINFAILED, LOGINSUCCESS } from './login.model';
 
@@ -48,10 +48,10 @@ export class LoginComponent implements OnInit {
         (res) => {
           console.log(res);
           this.openSnackBar(LOGINSUCCESS, SUCCESS);
-          localStorage.setItem('jwttoken', res.headers.get('jwttoken'));
-          let payload:string = res.headers.get('jwttoken').split('.')[1];
-          let userType:string = atob(payload);
-          localStorage.setItem("userId",res.body.data.userId);
+          localStorage.setItem(JWTTOKEN, res.headers.get(JWTTOKEN));
+          let payload: string = res.headers.get(JWTTOKEN).split('.')[1];
+          let userType: string = atob(payload);
+          localStorage.setItem('userId', res.body.data.userId);
           if (JSON.parse(userType).role == 'user') {
             localStorage.setItem('isUserLoggedIn', 'true');
             this.router.navigate([HOME]);

@@ -9,25 +9,38 @@
           <mat-form-field appearance="outline" class="w-96">
             <mat-label>Title</mat-label>
             <input matInput type="text" formControlName="title" />
-            <mat-error class="text-xs" *ngIf="EventForm.invalid">Title must contain min 10 chars</mat-error>
+            <mat-error class="text-xs" *ngIf="EventForm.invalid"
+              >Title must contain min 10 chars</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-96">
             <mat-label>Venue</mat-label>
             <input matInput type="text" formControlName="venue" />
-            <mat-error class="text-xs" *ngIf="EventForm.invalid">Venue must contain min 3 chars</mat-error>
+            <mat-error class="text-xs" *ngIf="EventForm.invalid"
+              >Venue must contain min 3 chars</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-96">
             <mat-label>Date</mat-label>
-            <input type="date" min="{{minDate.toISOString().slice(0,10)}}" matInput formControlName="date" />
-            <mat-error class="text-xs" *ngIf="EventForm.invalid">Select the date</mat-error>
+            <input
+              type="date"
+              min="{{ minDate.toISOString().slice(0, 10) }}"
+              matInput
+              formControlName="date"
+            />
+            <mat-error class="text-xs" *ngIf="EventForm.invalid"
+              >Select the date</mat-error
+            >
           </mat-form-field>
-          
+
           <mat-form-field appearance="outline" class="w-96">
             <mat-label>Amount</mat-label>
             <input type="number" matInput formControlName="amount" />
-            <mat-error class="text-xs" *ngIf="EventForm.invalid">Amount should be greater tha 100</mat-error>
+            <mat-error class="text-xs" *ngIf="EventForm.invalid"
+              >Amount should be greater tha 100</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-96">
@@ -38,7 +51,9 @@
               class="h-20"
               formControlName="description"
             ></textarea>
-            <mat-error class="text-xs" *ngIf="EventForm.invalid">Description must contain min 15 chars</mat-error>
+            <mat-error class="text-xs" *ngIf="EventForm.invalid"
+              >Description must contain min 15 chars</mat-error
+            >
           </mat-form-field>
         </div>
       </div>

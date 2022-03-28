@@ -1,22 +1,22 @@
+import { HttpHeaders } from '@angular/common/http';
+
 export interface Events {
   status: string;
   message: string;
-  data: [
-    {
-      id: string;
-      eventId: string;
-      title: string;
-      venue: string;
-      date: string;
-      amount: string;
-      description: string;
-      createdBy: string;
-      createdOn: string;
-      lastUpdatedOn: string;
-      status: 'active' | 'deleted';
-      img?: string;
-    }
-  ];
+  data: {
+    id: string;
+    eventId: string;
+    title: string;
+    venue: string;
+    date: string;
+    amount: string;
+    description: string;
+    createdBy: string;
+    createdOn: string;
+    lastUpdatedOn: string;
+    status: 'active' | 'deleted';
+    img?: string;
+  }[];
 }
 
 export interface OneEvent {
@@ -36,6 +36,23 @@ export interface OneEvent {
     status: 'active' | 'deleted';
     img?: string;
   };
+}
+
+export interface DataArray {
+  data: {
+    id: string;
+    eventId: string;
+    title: string;
+    venue: string;
+    date: string;
+    amount: string;
+    description: string;
+    createdBy: string;
+    createdOn: string;
+    lastUpdatedOn: string;
+    status: 'active' | 'deleted';
+    img?: string;
+  }[];
 }
 
 export interface User {
@@ -67,6 +84,21 @@ export interface Login {
   password: string;
 }
 
+
+export interface LoginResponse {
+  headers: HttpHeaders;
+  status: number;
+  statusText: string;
+  url: string;
+  ok: boolean;
+  type:number
+  body: {
+    status: string;
+    message: string;
+    data: { userId: string };
+  };
+}
+
 export interface Response {
   status: string;
   message: string;
@@ -81,24 +113,27 @@ export interface BookingsCount {
 export interface Titles {
   status: string;
   message: string;
-  data: [];
+  data: string[];
 }
 
 // paths
 
-export const SIGNUP = "/signup"
-export const LOGIN = "/login"
+export const SIGNUP = '/signup';
+export const LOGIN = '/login';
 
-export const DASHBOARD = "/dashboard"
-export const USERS = "/dashboard/users"
-export const EVENTS = "/dashboard/events"
-export const BOOKINGS = "/dashboard/bookings"
+export const DASHBOARD = '/dashboard';
+export const USERS = '/dashboard/users';
+export const EVENTS = '/dashboard/events';
+export const BOOKINGS = '/dashboard/bookings';
 
-export const HOME = ""
-export const BOOKEDEVENTS = "/bookedEvents"
-export const PROFILE = "/profile"
+export const HOME = '';
+export const BOOKEDEVENTS = '/bookedEvents';
+export const PROFILE = '/profile';
 
 // snackbar styles
 
-export const SUCCESS = "green-snackbar"
-export const FAILURE = "red-snackbar"
+export const SUCCESS = 'green-snackbar';
+export const FAILURE = 'red-snackbar';
+export const INFO = 'white-snackbar';
+
+export const JWTTOKEN = 'jwttoken';

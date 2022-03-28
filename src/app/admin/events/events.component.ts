@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 import { Events, FAILURE, SUCCESS } from 'src/app/app.model';
-import { EVENTDELETED, EVENTNOTDELETED } from '../admin.model';
+import { CREATE, DELETEEVENT, DELETEEVENTCONFIRMATION, EventData, EVENTDELETED, EVENTNOTDELETED, UPDATE } from '../admin.model';
 
 @Component({
   selector: 'app-events',
@@ -44,11 +44,11 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  async deleteEvent(eventId:string): Promise<void> {
+  async deleteEvent(eventId: string): Promise<void> {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: {
-        title: `Are you sure you want to delete the event - ${eventId}`,
-        btnName: 'Delete Event',
+        title: DELETEEVENTCONFIRMATION+eventId,
+        btnName: DELETEEVENT,
       },
     });
     this.confirmation = await dialogRef.afterClosed().toPromise().then();
@@ -64,11 +64,11 @@ export class EventsComponent implements OnInit {
     }
   }
 
-  editEvent(event:any): void {
+  editEvent(event: EventData): void {
     this.dialog.open(EventModalComponent, {
       data: {
-        title: 'update',
-        row: event
+        title: UPDATE,
+        row: event,
       },
     });
   }
@@ -76,7 +76,7 @@ export class EventsComponent implements OnInit {
   create(): void {
     this.dialog.open(EventModalComponent, {
       data: {
-        title: 'create'
+        title: CREATE,
       },
     });
     this.ngOnInit();

@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Users } from '../admin/admin.model';
-import { BookingsCount, Events, Login, Signup, Titles } from '../app.model';
+import { BookingsCount, Events, Login, Response, Signup, Titles } from '../app.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,11 @@ export class ApiServiceService {
 
   baseUrl: string = 'http://localhost:8080/';
 
-  jwtToken: any;
+  jwtToken!: HttpHeaders;
 
   // SETTER
   setJwtToken(): void {
-    this.jwtToken = { Authorization: localStorage.getItem('jwttoken') };
+    this.jwtToken = new HttpHeaders({Authorization:localStorage.getItem('jwttoken')+""})
   }
 
   getEventId(): string | null {
@@ -27,7 +28,7 @@ export class ApiServiceService {
     return localStorage.getItem('userId');
   }
 
-  // AUTH
+  // Account
   userSignup(body: Signup): Observable<Response> {
     return this.http.post<Response>(this.baseUrl + 'user/signup', body);
   }

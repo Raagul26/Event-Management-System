@@ -7,13 +7,13 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { HOME } from '../app.model';
+import { LOGIN } from '../app.model';
 import { ApiServiceService } from '../services/api-service.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(private router: Router, private apiService: ApiServiceService) {}
 
   canActivate(
@@ -29,15 +29,8 @@ export class AuthGuard implements CanActivate {
       localStorage.getItem('isAdminLoggedIn') == 'true'
     ) {
       return true;
-    } else if (
-      (route.routeConfig?.path == 'profile' ||
-        route.routeConfig?.path == 'bookedEvents') &&
-      localStorage.getItem('isUserLoggedIn') == 'true'
-    ) {
-      return true;
-    } else {
-      this.router.navigate([HOME]);
-      return false;
     }
+    this.router.navigate([LOGIN])
+    return false;
   }
 }

@@ -8,9 +8,24 @@ import {
 } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Events, Titles } from 'src/app/app.model';
+import { EventData } from 'src/app/admin/admin.model';
+import {
+  DataArray,
+  Events,
+  FAILURE,
+  INFO,
+  SUCCESS,
+  Titles,
+} from 'src/app/app.model';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 import { ApiServiceService } from '../../services/api-service.service';
+import {
+  BOOKCONFIRMATION,
+  BOOKEVENT,
+  EVENTBOOKED,
+  PLEASELOGIN,
+  POSTERPATH,
+} from '../user.model';
 
 @Component({
   selector: 'app-available-events',
@@ -18,7 +33,7 @@ import { ApiServiceService } from '../../services/api-service.service';
   styles: [],
 })
 export class AvailableEventsComponent implements OnInit {
-  events!:any;
+  events!: DataArray;
   displaySpinner: boolean = true;
   isLoggedIn: string | null = localStorage.getItem('isUserLoggedIn');
   userId = localStorage.getItem('userId');
@@ -36,18 +51,17 @@ export class AvailableEventsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.apiService.getActiveEvents().subscribe((res:Events) => {
+    this.apiService.getActiveEvents().subscribe((res: Events) => {
       this.displaySpinner = false;
       this.events = {
-        data: res.data.map((eachData) => {
-          eachData.img =
-            '../../../assets/Event Images/event' + this.randomNo() + '.jpg';
+        data: res.data.map((eachData: EventData) => {
+          eachData.img = POSTERPATH + this.randomNo() + '.jpg';
           return eachData;
         }),
       };
     });
 
-    this.apiService.getEventTitles().subscribe((res:Titles) => {
+    this.apiService.getEventTitles().subscribe((res: Titles) => {
       this.options = res.data;
     });
 
@@ -57,8 +71,8 @@ export class AvailableEventsComponent implements OnInit {
     );
   }
 
-  filter() {
-    return this.events.data.filter((s: any) =>
+  filter(): EventData[] {
+    return this.events.data.filter((s: EventData) =>
       s.title.includes(this.myControl.value)
     );
   }
@@ -67,7 +81,7 @@ export class AvailableEventsComponent implements OnInit {
     return Math.floor(Math.random() * 6);
   }
 
-  toRupeesFormat(num: Number):string {
+  toRupeesFormat(num: Number): string {
     return num.toLocaleString('en-IN', {
       style: 'currency',
       currency: 'INR',
@@ -84,11 +98,11 @@ export class AvailableEventsComponent implements OnInit {
     });
   }
 
-  async bookEvent(eventId:string): Promise<void> {
+  async bookEvent(eventId: string): Promise<void> {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: {
-        title: `Are you sure you want to book the event - ${eventId}`,
-        btnName: 'Book Event',
+        title: BOOKCONFIRMATION + eventId,
+        btnName: BOOKEVENT,
       },
     });
     this.confirmation = await dialogRef.afterClosed().toPromise().then();
@@ -97,21 +111,21 @@ export class AvailableEventsComponent implements OnInit {
       localStorage.setItem('eventId', eventId);
       this.apiService.bookEvent().subscribe(
         () => {
-          this.openSnackBar('Event Booked Successfully!', 'green-snackbar');
+          this.openSnackBar(EVENTBOOKED, SUCCESS);
         },
         (err) => {
-          this.openSnackBar(err.error.message, 'red-snackbar');
+          this.openSnackBar(err.error.message, FAILURE);
         }
       );
     } else if (this.isLoggedIn != 'true') {
-      this.openSnackBar('Please login to book event...', 'white-snackbar');
+      this.openSnackBar(PLEASELOGIN, INFO);
     }
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options?.filter((option:string) =>
+    return this.options?.filter((option: string) =>
       option.toLowerCase().includes(filterValue)
     );
   }

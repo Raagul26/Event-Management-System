@@ -1,5 +1,5 @@
 export interface BookingCount {
-    status: string;
-    message: string;
-    data: number;
-  }
+  status: string;
+  message: string;
+  data: number;
+}

@@ -7,7 +7,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { LOGIN } from 'src/app/app.model';
+import { FAILURE, LOGIN, SUCCESS } from 'src/app/app.model';
+import { ACCOUNTCREATED, INVALID } from '../user.model';
 
 @Component({
   selector: 'app-signup',
@@ -56,9 +57,9 @@ export class SignupComponent implements OnInit {
       this.apiService.userSignup(this.signupForm.value).subscribe(
         () => {
           this.router.navigate([LOGIN]);
-          this.openSnackBar('Account Created Successfully!', 'green-snackbar');
+          this.openSnackBar(ACCOUNTCREATED, SUCCESS);
         },
-        () => this.openSnackBar('Invalid Details', 'red-snackbar')
+        () => this.openSnackBar(INVALID, FAILURE)
       );
     }
   }

@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BOOKINGS, DASHBOARD, EVENTS, HOME, LOGIN, USERS } from 'src/app/app.model';
+import {
+  BOOKINGS,
+  DASHBOARD,
+  EVENTS,
+  HOME,
+  LOGIN,
+  USERS,
+} from 'src/app/app.model';
 import { ApiServiceService } from '../../services/api-service.service';
 
 @Component({
@@ -38,7 +45,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.clear()
+    localStorage.clear();
     this.router.navigate([LOGIN]);
   }
 }

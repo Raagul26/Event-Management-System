@@ -14,8 +14,8 @@ export class BookingsComponent implements OnInit {
   users!: Users;
   error!: string;
   titles!: Titles;
-  OnSubmit:boolean = false
-  loading:boolean = false
+  OnSubmit: boolean = false;
+  loading: boolean = false;
   constructor(private apiService: ApiServiceService) {}
 
   ngOnInit(): void {
@@ -24,27 +24,25 @@ export class BookingsComponent implements OnInit {
     });
 
     this.eventForm = new FormGroup({
-      eventTitle: new FormControl('', [
-        Validators.required
-      ]),
+      eventTitle: new FormControl('', [Validators.required]),
     });
   }
 
   onSubmit(): void {
     if (this.eventForm.valid) {
-    this.loading = true
+      this.loading = true;
       this.apiService
         .getUsersByEventTitle(this.eventForm.value.eventTitle)
         .subscribe(
           (res) => {
             this.users = res;
-            this.loading = false
+            this.loading = false;
           },
           (err) => {
             this.error = err.message;
           }
         );
-      this.OnSubmit = true
+      this.OnSubmit = true;
     }
   }
 }

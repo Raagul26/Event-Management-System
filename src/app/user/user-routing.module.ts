@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../guards/auth.guard';
-import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import { UserGuard } from '../guards/user.guard';
 import { AvailableEventsComponent } from './available-events/available-events.component';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
@@ -17,12 +16,12 @@ const routes: Routes = [
       {
         path: 'bookedEvents',
         component: UserEventsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [UserGuard],
       },
       {
         path: 'profile',
         component: UserDetailsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [UserGuard],
       },
     ],
   },
