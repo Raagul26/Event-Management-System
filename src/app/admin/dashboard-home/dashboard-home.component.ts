@@ -16,12 +16,12 @@ export class DashboardHomeComponent implements OnInit {
   displaySpinner: boolean = true;
   constructor(private apiService: ApiServiceService) {}
 
-  async ngOnInit(): Promise<void> {
-    this.events = await this.apiService.getAllEvents().toPromise().then();
+  ngOnInit(): void {
+    this.apiService.getAllEvents().subscribe((res)=>this.events=res);
 
-    this.users = await this.apiService.getAllUsers().toPromise().then();
+    this.apiService.getAllUsers().subscribe((res)=>this.users=res)
 
-    this.bookings = await this.apiService.getTotalBookings().toPromise().then();
+    this.apiService.getTotalBookings().subscribe(res=>this.bookings=res)
 
     this.displaySpinner = false;
   }

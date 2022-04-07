@@ -2,7 +2,17 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Users } from '../admin/admin.model';
-import { BookingsCount, Events, JWTTOKEN, Login, LoginResponse, Response, Signup, Titles } from '../app.model';
+import {
+  BookingsCount,
+  Events,
+  JWTTOKEN,
+  Login,
+  LoginResponse,
+  Response,
+  Signup,
+  Titles,
+  User,
+} from '../app.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +26,9 @@ export class ApiServiceService {
 
   // SETTER
   setJwtToken(): void {
-    this.jwtToken = new HttpHeaders({Authorization:localStorage.getItem(JWTTOKEN)+""})
+    this.jwtToken = new HttpHeaders({
+      Authorization: localStorage.getItem(JWTTOKEN) + '',
+    });
   }
 
   getEventId(): string | null {
@@ -34,7 +46,7 @@ export class ApiServiceService {
 
   userLogin(body: Login): Observable<HttpResponse<LoginResponse>> {
     return this.http.post<LoginResponse>(this.baseUrl + 'user/login', body, {
-      observe:'response'
+      observe: 'response',
     });
   }
 
@@ -106,8 +118,8 @@ export class ApiServiceService {
 
   // USER
 
-  getUser(): Observable<Users> {
-    return this.http.get<Users>(
+  getUser(): Observable<User> {
+    return this.http.get<User>(
       this.baseUrl + 'user/' + localStorage.getItem('userId'),
       { headers: this.jwtToken }
     );
@@ -132,6 +144,17 @@ export class ApiServiceService {
       body,
       { headers: this.jwtToken }
     );
+  }
+
+  forgotPassword(emailId: string) {
+    return this.http.get(this.baseUrl + 'user/forgotPassword/' + emailId);
+  }
+
+  resetPassword(emailId: string, password: string) {
+    return this.http.put(this.baseUrl + 'user/resetPassword', {
+      emailId: emailId,
+      password: password,
+    });
   }
 
   // BOOKING

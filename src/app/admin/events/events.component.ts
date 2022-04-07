@@ -9,7 +9,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 import { Events, FAILURE, SUCCESS } from 'src/app/app.model';
-import { CREATE, DELETEEVENT, DELETEEVENTCONFIRMATION, EventData, EVENTDELETED, EVENTNOTDELETED, UPDATE } from '../admin.model';
+import {
+  CREATE,
+  DELETEEVENT,
+  DELETEEVENTCONFIRMATION,
+  EventData,
+  EVENTDELETED,
+  EVENTNOTDELETED,
+  UPDATE,
+} from '../admin.model';
 
 @Component({
   selector: 'app-events',
@@ -22,7 +30,7 @@ export class EventsComponent implements OnInit {
 
   events!: Events;
   loading: boolean = true;
-  confirmation!: boolean;
+
   constructor(
     private apiService: ApiServiceService,
     private _snackBar: MatSnackBar,
@@ -44,24 +52,24 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  async deleteEvent(eventId: string): Promise<void> {
+  deleteEvent(eventId: string): void {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: {
-        title: DELETEEVENTCONFIRMATION+eventId,
+        title: DELETEEVENTCONFIRMATION + eventId,
         btnName: DELETEEVENT,
       },
     });
-    this.confirmation = await dialogRef.afterClosed().toPromise().then();
-
-    if (this.confirmation) {
-      this.apiService.deleteEvent(eventId).subscribe(
-        () => {
-          this.openSnackBar(EVENTDELETED, SUCCESS);
-          this.ngOnInit();
-        },
-        () => this.openSnackBar(EVENTNOTDELETED, FAILURE)
-      );
-    }
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.apiService.deleteEvent(eventId).subscribe(
+          () => {
+            this.openSnackBar(EVENTDELETED, SUCCESS);
+            this.ngOnInit();
+          },
+          () => this.openSnackBar(EVENTNOTDELETED, FAILURE)
+        );
+      }
+    });
   }
 
   editEvent(event: EventData): void {

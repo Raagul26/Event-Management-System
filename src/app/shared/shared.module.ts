@@ -10,11 +10,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { LoginComponent } from './login/login.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 @NgModule({
   declarations: [
     LoginComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +28,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   exports:[ConfirmationModalComponent]
 })

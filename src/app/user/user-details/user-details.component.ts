@@ -9,35 +9,37 @@ import { ApiServiceService } from '../../services/api-service.service';
   styles: [],
 })
 export class UserDetailsComponent implements OnInit {
-  userDetails!:User
+  userDetails!: User;
 
   userDetailsForm!: FormGroup;
   editShow: boolean = true;
   readonly: boolean = true;
-  displaySpinner:boolean = true
+  displaySpinner: boolean = true;
 
   constructor(private apiService: ApiServiceService) {}
 
-  async ngOnInit(): Promise<void> {    
-    this.userDetails = await this.apiService.getUser().toPromise().then();
-    this.displaySpinner =false
-    
-    this.userDetailsForm = new FormGroup({
-      firstName: new FormControl(this.userDetails.data.firstName, [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(15),
-      ]),
-      lastName: new FormControl(this.userDetails.data.lastName, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(15),
-      ]),
-      contactNo: new FormControl(this.userDetails.data.contactNo, [
-        Validators.required,
-        Validators.pattern('^[0-9]{10}$'),
-      ]),
+  ngOnInit(): void {
+    this.apiService.getUser().subscribe((res) => {
+      this.userDetails = res;
+      this.userDetailsForm = new FormGroup({
+        firstName: new FormControl(this.userDetails.data.firstName, [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(15),
+        ]),
+        lastName: new FormControl(this.userDetails.data.lastName, [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(15),
+        ]),
+        contactNo: new FormControl(this.userDetails.data.contactNo, [
+          Validators.required,
+          Validators.pattern('^[0-9]{10}$'),
+        ]),
+      });
     });
+
+    this.displaySpinner = false;
   }
 
   edit(): void {

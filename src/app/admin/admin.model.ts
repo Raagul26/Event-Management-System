@@ -1,7 +1,7 @@
 export interface Users {
   status: string;
   message: string;
-  data: [
+  data:
     {
       id: string;
       userId: string;
@@ -12,8 +12,7 @@ export interface Users {
       userType: string;
       createdOn: string;
       status: 'active' | 'deleted';
-    }
-  ];
+    }[]
 }
 
 export interface EventData {

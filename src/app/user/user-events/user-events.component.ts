@@ -26,7 +26,6 @@ export class UserEventsComponent implements OnInit {
   bookedEvents!: DataArray;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  confirmation!: boolean;
 
   constructor(
     private apiService: ApiServiceService,
@@ -46,7 +45,7 @@ export class UserEventsComponent implements OnInit {
     });
   }
 
-  async cancelEvent(event: Event): Promise<void> {
+  cancelEvent(event: Event): void {
     var eventId = (<HTMLButtonElement>event.target).id;
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: {
@@ -54,17 +53,17 @@ export class UserEventsComponent implements OnInit {
         btnName: CANCELEVENT,
       },
     });
-    this.confirmation = await dialogRef.afterClosed().toPromise().then();
-
-    if (this.confirmation) {
-      this.apiService.cancelEvent(eventId).subscribe(
-        () => {
-          this.ngOnInit();
-          this.openSnackBar(EVENTCANCELLED, SUCCESS);
-        },
-        (err) => this.openSnackBar(err.message, FAILURE)
-      );
-    }
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.apiService.cancelEvent(eventId).subscribe(
+          () => {
+            this.ngOnInit();
+            this.openSnackBar(EVENTCANCELLED, SUCCESS);
+          },
+          (err) => this.openSnackBar(err.message, FAILURE)
+        );
+      }
+    });
   }
 
   randomNo(): number {

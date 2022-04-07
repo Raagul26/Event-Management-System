@@ -42,7 +42,6 @@ export class AvailableEventsComponent implements OnInit {
   filteredOptions!: Observable<string[]>;
   options!: string[];
   myControl: FormControl = new FormControl('');
-  confirmation!: boolean;
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -98,28 +97,28 @@ export class AvailableEventsComponent implements OnInit {
     });
   }
 
-  async bookEvent(eventId: string): Promise<void> {
+  bookEvent(eventId: string): void {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: {
         title: BOOKCONFIRMATION + eventId,
         btnName: BOOKEVENT,
       },
     });
-    this.confirmation = await dialogRef.afterClosed().toPromise().then();
-
-    if (this.isLoggedIn == 'true' && this.confirmation) {
-      localStorage.setItem('eventId', eventId);
-      this.apiService.bookEvent().subscribe(
-        () => {
-          this.openSnackBar(EVENTBOOKED, SUCCESS);
-        },
-        (err) => {
-          this.openSnackBar(err.error.message, FAILURE);
-        }
-      );
-    } else if (this.isLoggedIn != 'true') {
-      this.openSnackBar(PLEASELOGIN, INFO);
-    }
+    dialogRef.afterClosed().subscribe((res) => {
+      if (this.isLoggedIn == 'true' && res) {
+        localStorage.setItem('eventId', eventId);
+        this.apiService.bookEvent().subscribe(
+          () => {
+            this.openSnackBar(EVENTBOOKED, SUCCESS);
+          },
+          (err) => {
+            this.openSnackBar(err.error.message, FAILURE);
+          }
+        );
+      } else if (this.isLoggedIn != 'true') {
+        this.openSnackBar(PLEASELOGIN, INFO);
+      }
+    });
   }
 
   private _filter(value: string): string[] {
