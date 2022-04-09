@@ -1,0 +1,81 @@
+<div class="grid grid-cols-9 overflow-y-hidden h-screen">
+  <mat-toolbar color="primary" class="col-span-9">
+    <span>Admin Dashboard</span>
+  </mat-toolbar>
+
+  <div class="h-screen shadow-md bg-white px-1 col-span-1 mt-1">
+    <ul>
+      <li>
+        <input
+          type="radio"
+          id="home"
+          name="tab"
+          (click)="home()"
+          class="hidden peer"
+          [checked]="currentUrl == '/dashboard/home'"
+        />
+        <label
+          for="home"
+          class="text-sm block py-3 px-2 text-gray-700 rounded hover:text-gray-900 hover:bg-gray-100 peer-checked:bg-gray-200"
+          >Home</label
+        >
+      </li>
+      <li>
+        <input
+          type="radio"
+          id="users"
+          name="tab"
+          (click)="users()"
+          class="hidden peer"
+          [checked]="currentUrl == '/dashboard/users'"
+        />
+        <label
+          for="users"
+          class="text-sm block py-3 px-2 text-gray-700 rounded hover:text-gray-900 hover:bg-gray-100 peer-checked:bg-gray-200"
+          >Users</label
+        >
+      </li>
+      <li>
+        <input
+          type="radio"
+          id="events"
+          name="tab"
+          (click)="events()"
+          class="hidden peer"
+          [checked]="currentUrl == '/dashboard/events'"
+        />
+        <label
+          for="events"
+          class="text-sm block py-3 px-2 text-gray-700 rounded hover:text-gray-900 hover:bg-gray-100 peer-checked:bg-gray-200"
+          >Events</label
+        >
+      </li>
+      <li>
+        <input
+          type="radio"
+          id="bookings"
+          name="tab"
+          (click)="bookings()"
+          class="hidden peer"
+          [checked]="currentUrl == '/dashboard/bookings'"
+        />
+        <label
+          for="bookings"
+          class="text-sm block py-3 px-2 text-gray-700 rounded hover:text-gray-900 hover:bg-gray-100 peer-checked:bg-gray-200"
+          >Bookings</label
+        >
+      </li>
+      <li>
+        <a
+          (click)="logout()"
+          class="text-sm block py-3 px-2 text-gray-700 rounded cursor-default hover:text-gray-900 hover:bg-gray-100"
+          >Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-span-8 bg-slate-100 p-5 h-screen overflow-y-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

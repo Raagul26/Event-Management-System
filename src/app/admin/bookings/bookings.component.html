@@ -1,0 +1,86 @@
+<h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-blue-600">
+  BOOKINGS
+</h3>
+<form
+  class="flex justify-center items-baseline space-x-10"
+  [formGroup]="eventForm"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field appearance="outline" *ngIf="titles">
+    <mat-label>Select Event Title</mat-label>
+    <mat-select formControlName="eventTitle">
+      <mat-option *ngFor="let title of titles.data" [value]="title">
+        {{ title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary">Get Users</button>
+</form>
+
+<div *ngIf="loading" class="flex justify-center">
+  <mat-spinner [diameter]="50" strokeWidth="3"></mat-spinner>
+</div>
+
+<div class="min-w-screen flex justify-center font-sans mx-5" *ngIf="OnSubmit">
+  <div class="w-full">
+    <div class="bg-white shadow-md shadow-slate-200 rounded my-6">
+      <table class="min-w-max w-full table-auto">
+        <thead>
+          <tr
+            class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
+          >
+            <th class="py-3 px-6 text-center">User Id</th>
+            <th class="py-3 px-6 text-center">First Name</th>
+            <th class="py-3 px-6 text-center">Last Name</th>
+            <th class="py-3 px-6 text-center">Email Id</th>
+            <th class="py-3 px-6 text-center">Contact No</th>
+            <th class="py-3 px-6 text-center">Created On</th>
+            <th class="py-3 px-6 text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody id="table-body" class="text-gray-600 text-sm font-light">
+          <tr
+            class="border-b border-gray-200 hover:bg-gray-100"
+            *ngFor="let user of users?.data"
+          >
+            <td
+              class="py-3 px-6 text-center whitespace-nowrap font-semibold hover:cursor-default"
+            >
+              {{ user.userId }}
+            </td>
+            <td
+              class="py-3 px-6 text-center font-semibold hover:cursor-default"
+            >
+              {{ user.firstName | titlecase }}
+            </td>
+            <td
+              class="py-3 px-6 text-center font-semibold hover:cursor-default"
+            >
+              {{ user.lastName | titlecase }}
+            </td>
+            <td
+              class="py-3 px-6 text-center font-semibold hover:cursor-default"
+            >
+              {{ user.emailId }}
+            </td>
+            <td
+              class="py-3 px-6 text-center font-semibold hover:cursor-default"
+            >
+              {{ user.contactNo }}
+            </td>
+            <td
+              class="py-3 px-6 text-center font-semibold hover:cursor-default"
+            >
+              {{ user.createdOn | date }}
+            </td>
+            <td
+              class="py-3 px-6 text-center font-semibold hover:cursor-default"
+            >
+              {{ user.status | titlecase }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
